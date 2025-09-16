@@ -1,9 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy static site to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # or "master" if your classroom repo uses master
+      - main  # Runs on every push to main branch
 
 permissions:
   contents: read
@@ -14,13 +14,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      # Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Upload Pages artifact
+      # Upload everything in the repo root (where index.html is)
+      - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .  # deploys from project root (where index.html is)
+          path: .  # make sure index.html is in the root
 
   deploy:
     environment:
