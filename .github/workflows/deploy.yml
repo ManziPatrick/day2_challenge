@@ -3,11 +3,12 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches:
-      - main  # or "master" if your repo uses master
+      - main  # Change to "master" if your default branch is master
+  workflow_dispatch:  # Allows manual triggering
 
 permissions:
   contents: read
-  pages: write       # allow deployment to Pages
+  pages: write
   id-token: write
 
 concurrency:
@@ -21,15 +22,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Upload repo root (with index.html) as artifact
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .   # this includes index.html
+          path: .  # Deploy entire repo root (includes index.html)
 
   deploy:
     environment:
-      name: github-pages   # auto-creates environment if missing
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
