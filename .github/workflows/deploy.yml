@@ -3,8 +3,8 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change to "master" if your default branch is master
-  workflow_dispatch:  # Allows manual triggering
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,13 +22,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .  # Deploy entire repo root (includes index.html)
+          path: .
 
   deploy:
     environment:
